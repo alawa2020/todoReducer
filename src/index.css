@@ -1,0 +1,12 @@
+body {
+  background-color: #21232a;
+  color: azure;
+}
+
+.complete {
+  text-decoration: line-through;
+}
+
+p {
+  cursor: pointer;
+}
