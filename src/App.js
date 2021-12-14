@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
+import TodoList from './components/TodoList';
 import useform from './hooks/useform';
 import todoReducer from './reducers/todoReducer';
 
@@ -67,25 +68,12 @@ const App = () => {
         {/* Lista de todos */}
         <div className="col">
           <h2>ToDo's</h2>
-          <ol>
-            {state.map((todo) => (
-              <div key={todo.id}>
-                <p
-                  onClick={() => handleClickTodo(todo.id)}
-                  className={`${todo.done && 'complete'}`}
-                >
-                  {todo.todo}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => handleDeleteClick(todo.id)}
-                  className="btn btn-outline-primary"
-                >
-                  Borrar
-                </button>
-              </div>
-            ))}
-          </ol>
+
+          <TodoList
+            state={state}
+            handleClickTodo={handleClickTodo}
+            handleDeleteClick={handleDeleteClick}
+          />
         </div>
 
         {/* Agregar Todos */}
