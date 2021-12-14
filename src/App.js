@@ -1,22 +1,30 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import useform from './hooks/useform';
 import todoReducer from './reducers/todoReducer';
 
-const initialState = [
-  {
-    id: '1',
-    todo: 'Aprender React',
-    done: false,
-  },
-  {
-    id: '2',
-    todo: 'Aprender Node',
-    done: false,
-  },
-];
+// const initialState = [
+//   {
+//     id: '1',
+//     todo: 'Aprender React',
+//     done: false,
+//   },
+//   {
+//     id: '2',
+//     todo: 'Aprender Node',
+//     done: false,
+//   },
+// ];
+
+const init = () => {
+  return JSON.parse(localStorage.getItem('todos')) || [];
+};
 
 const App = () => {
-  const [state, dispatch] = useReducer(todoReducer, initialState);
+  const [state, dispatch] = useReducer(todoReducer, [], init);
+
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(state));
+  }, [state]);
 
   const [{ tarea }, handleValuesChange, resetForm] = useform({ tarea: '' });
 
@@ -40,7 +48,7 @@ const App = () => {
       dispatch({
         type: 'add',
         payload: {
-          id: 3,
+          id: new Date().getTime(),
           todo: tarea,
           done: false,
         },
