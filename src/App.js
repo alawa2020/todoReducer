@@ -1,8 +1,10 @@
 import React, { useEffect, useReducer } from 'react';
+import TodoAdd from './components/TodoAdd';
 import TodoList from './components/TodoList';
-import useform from './hooks/useform';
+
 import todoReducer from './reducers/todoReducer';
 
+// forma del initialState
 // const initialState = [
 //   {
 //     id: '1',
@@ -27,8 +29,6 @@ const App = () => {
     localStorage.setItem('todos', JSON.stringify(state));
   }, [state]);
 
-  const [{ tarea }, handleValuesChange, resetForm] = useform({ tarea: '' });
-
   const handleClickTodo = (id) => {
     dispatch({
       type: 'update',
@@ -43,22 +43,15 @@ const App = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (tarea.trim().length > 2) {
-      dispatch({
-        type: 'add',
-        payload: {
-          id: new Date().getTime(),
-          todo: tarea,
-          done: false,
-        },
-      });
-      resetForm();
-      console.log('submit done!');
-      return;
-    }
-    console.log('error!');
+  const handleAddTodo = (tarea) => {
+    dispatch({
+      type: 'add',
+      payload: {
+        id: new Date().getTime(),
+        todo: tarea,
+        done: false,
+      },
+    });
   };
 
   return (
@@ -78,24 +71,7 @@ const App = () => {
 
         {/* Agregar Todos */}
         <div className="col">
-          <h2>Add Todo</h2>
-
-          <form onSubmit={handleSubmit}>
-            <input
-              className="form-control"
-              type="text"
-              placeholder="todo para agregar"
-              name="tarea"
-              value={tarea}
-              onChange={handleValuesChange}
-            />
-
-            <input
-              type="submit"
-              className="btn btn-outline-success"
-              value="Agregar"
-            />
-          </form>
+          <TodoAdd handleAddTodo={handleAddTodo} />
         </div>
       </div>
     </div>
